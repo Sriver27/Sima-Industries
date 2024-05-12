@@ -39,8 +39,11 @@ const ItemProduct = ({ product, loading, isProfileWindow = false, deleteProduct,
   };
 
   const handleClick = () => {
-    const basePath = location.pathname.endsWith("/profile") || location.pathname.endsWith("/profile/") ? "product":"profile";
-    navigate(`/${basePath}/${product.categoryType}/${product.id}`);
+    let basePath="product";
+    if(location.pathname.endsWith("/profile") || location.pathname.endsWith("/profile/")){
+       basePath =  "product";
+      }
+      navigate(`/${basePath}/${product.categoryType}/${product.id}`);
   };
 
   return (
