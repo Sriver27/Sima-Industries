@@ -8,11 +8,11 @@ const TestimoniCard = (props) => {
     <div className="boxtesti">
       <div className="texttesti">
         <img src={QuoteIcon} alt="QuoteIcon" />
-        <p>{props.testi}</p>
+        <p style={{maxHeight:"4em",overflow: "hidden", textOverflow:"ellipsis"}}>{props.testi}</p>
       </div>
       <div className="avarate">
         <div className="namerate">
-          <img src={props.avatar} alt="avatar" />
+          <img src={props.avatar} alt="avatar" className="review-avatar"/>
           <h4>{props.name}</h4>
         </div>
         <div className="starrating">

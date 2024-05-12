@@ -7,7 +7,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartFilled } from "@fortawesome/free-regular-svg-icons";
 import { UserAuth } from "../../../../context/authContext";
 import { db } from "../../../../../utils/firebaseConfig";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import Skeleton from "react-loading-skeleton";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
@@ -50,71 +50,18 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   let { id } = useParams();
 
-  const productID = doc(db, "users", `${user?.email}`);
-  const saveProduct = async () => {
-    if (user?.email) {
-      setLike(!like);
-      setSaved(true);
-      await updateDoc(productID, {
-        savedProduct: arrayUnion({
-          id: product.id,
-          category: product.category.id,
-          img: product.gambar,
-          nama: product.nama,
-          tagline: product.tagline,
-          harga: product.harga,
-        }),
-      });
-    } else {
-      alert("Login Untuk save product");
-    }
-  };
-
-  const addToCart = async () => {
-    if (user?.email) {
-      await updateDoc(productID, {
-        cartProduct: arrayUnion({
-          id: product.id,
-          category: product.category.id,
-          img: product.gambar,
-          nama: product.nama,
-          tagline: product.tagline,
-          harga: product.harga,
-          qty: quantitiy,
-        }),
-      });
-    } else {
-      navigate("../../login");
-    }
-  };
-
-  const buyNow = async () => {
-    if (user?.email) {
-      await updateDoc(productID, {
-        checkoutProduct: arrayUnion({
-          id: product.id,
-          category: product.category.id,
-          img: product.gambar,
-          nama: product.nama,
-          tagline: product.tagline,
-          harga: product.harga,
-          qty: quantitiy,
-        }),
-      });
-      navigate(`../../checkout`);
-    } else {
-      navigate("../../login");
-    }
-  };
-
   useEffect(() => {
-    axios.get(API_URL + `products/${id}`).then((res) => setProduct(res.data));
+    onSnapshot(collection(db, "products"), (snapshot) => {
+      const productRelatedData = snapshot.docs.map((doc) => doc.data())
+      console.log(productRelatedData)
+      setProduct(productRelatedData.filter((item)=>item.id == id))
+    });
   }, [id]);
 
   const notifyAddToWishList = () =>
-    toast.success("Berhasil Disimpan Ke Wishlist", {
+    toast.success("Product successfully added to wishlist!", {
       position: "top-center",
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -122,62 +69,31 @@ const ProductDetails = () => {
       progress: undefined,
     });
 
-    TabTitle(`Lalasia | ${product.nama}`);
+    TabTitle(`SimaIndustries | ${product[0]?.productName}`);
 
   return (
     <React.Fragment>
+      
       <ToastContainer style={{ fontSize: "13px" }} />
 
-      <ModalAddToCart
-        open={modalCart}
-        onClose={() => setModalCart(false)}
-        thisProduct={product}
-      />
-
+      
       <div className="productDetails">
-        <img src={product.gambar} alt="productImage" />
+        <img src={product[0]?.imageUrl} alt="productImage" />
 
         <div className="details">
-          <div
-            className="addToWishList"
-            onClick={() => {
-              saveProduct();
-              notifyAddToWishList();
-            }}
-          >
-            {like ? (
-              <FontAwesomeIcon icon={faHeart} size="xl" />
-            ) : (
-              <FontAwesomeIcon icon={faHeartFilled} size="xl" />
-            )}
-            <span className="tooltiptext">Tambahkan Ke Wishlist</span>
-          </div>
+          
 
-          <h2>{product.nama || <Skeleton />}</h2>
-          <h5>{product.tagline || <Skeleton count={5} />}</h5>
+          <h2>{product[0]?.productName || <Skeleton />}</h2>
+          <h5>{product[0]?.categoryType || <Skeleton count={2} />}</h5>
           <p>
-            <ReadMore>{product.description}</ReadMore>
+            <ReadMore>{product[0]?.productDescription}</ReadMore>
           </p>
-          <h2>Rp.{numberWithCommas(product.harga) || <Skeleton />}</h2>
+          <h2>Rs.{numberWithCommas(product[0]?.price) || <Skeleton />}</h2>
 
-          <Quantitiy quantitiy={quantitiy} setQuantitiy={SetQuantitiy} />
-
-          <button className="btnBuy" onClick={buyNow}>
-            Buy Now
-          </button>
-          <button
-            className="btnAdd"
-            onClick={() => {
-              addToCart();
-              setModalCart(true);
-            }}
-          >
-            Add To Cart
-          </button>
+          
+         
         </div>
       </div>
-
-      <RelatedList />
     </React.Fragment>
   );
 };

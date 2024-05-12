@@ -13,7 +13,7 @@ export default class CarouselImage extends Component {
     const settings = {
       dots: false,
       infinite: true,
-      speed: 500,
+      speed: 100,
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: true,
@@ -26,22 +26,22 @@ export default class CarouselImage extends Component {
           <div>
             <CarouselHeader
               headerImg={CarouselImg1}
-              title="Ramadhan Sale Offer"
-              desc="Get 40% off for frist transaction on Lalasia"
+              title="Elevate Your Space with Timeless Elegance"
+              desc="Transform any space into something sophisticated and stylish."
             />
           </div>
           <div>
             <CarouselHeader
               headerImg={CarouselImg2}
-              title="Aestetic Tabble Promo"
-              desc="Get buy one get one on buy to Aestetic Table"
+              title="Crafting Comfort, Inspiring Design"
+              desc="The quality craftsmanship and inspiring designs of furniture, appealing to customers who value both comfort and aesthetics in their home furnishings."
             />
           </div>
           <div>
             <CarouselHeader
               headerImg={CarouselImg3}
-              title="Make Over Your Livingroom"
-              desc="Get very comfy Sofa only on Lalasia"
+              title="Where Function Meets Fashion"
+              desc="Furniture not only serves practical purposes but also adds a touch of style and trendiness to any room."
             />
           </div>
         </Slider>

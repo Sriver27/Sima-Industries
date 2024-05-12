@@ -182,7 +182,7 @@ const Cart = () => {
       progress: undefined,
     });
 
-    TabTitle(`Lalasia | Cart (${itemCount})`);
+    TabTitle(`Sima Industries | Cart (${itemCount})`);
 
   return (
     <React.Fragment>
@@ -220,7 +220,7 @@ const Cart = () => {
                 </p>
               </div>
             ) : (
-              <>
+              <div>
                 {Array.isArray(cartItem)
                   ? cartItem.map((items) => (
                       <React.Fragment key={items.id}>
@@ -290,7 +290,7 @@ const Cart = () => {
                       </React.Fragment>
                     ))
                   : null}
-              </>
+              </div>
             )}
           </div>
 

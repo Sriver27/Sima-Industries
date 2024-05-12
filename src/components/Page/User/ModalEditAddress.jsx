@@ -43,7 +43,7 @@ const ModalEditAddress = ({ open, onClose, address }) => {
         <hr className="itemLineBreak" />
         <form className="formAddress">
           {address.map((data) => (
-            <>
+            <div>
               <div className="did-floating-label-content">
                 <input
                   className="did-floating-input"
@@ -126,7 +126,7 @@ const ModalEditAddress = ({ open, onClose, address }) => {
                   Detail Alamat Lengkap
                 </label>
               </div>
-            </>
+            </div>
           ))}
           <div className="addressBtnAction">
             <button className="btnSaveAddress" /* onClick={addAddress} */>

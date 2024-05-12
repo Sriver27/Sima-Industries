@@ -3,6 +3,8 @@
   background-position: center;
   width: 100vw;
   height: 100vh;
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
 }
 
 .containerAuthContex {
@@ -17,8 +19,9 @@
 .inputContex {
   display: flex;
   justify-content: center;
-  width: 600px;
-  height: 610px;
+  align-items: center;
+  width: 520px;
+  height: 530px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
@@ -52,7 +55,7 @@
 .inputContex form {
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 350px;
 }
 
 .inputContex form h5 {
@@ -132,7 +135,7 @@
   margin-left: 10px;
 }
 
-.logoLalasia {
+.logoSima Industries {
   display: none;
 }
 
@@ -152,6 +155,8 @@
   .backgroundImage {
     background-image: none;
     background-position: center;
+    filter: blur(2px);
+    -webkit-filter: blur(2px);
   }
 
   .inputContex {
@@ -159,7 +164,7 @@
     height: 100vh;
   }
 
-  .logoLalasia {
+  .logoSima Industries {
     display: block;
     position: absolute;
     bottom: 90%;

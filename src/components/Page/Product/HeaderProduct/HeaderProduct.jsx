@@ -4,18 +4,17 @@ import "../HeaderProduct/HeaderProduct.css";
 
 const HeaderProduct = () => {
   return (
-    <>
+    <div>
       <div className="headerProductContainer">
         <div className="headerTitle">
           <h1>Products</h1>
           <p>
-            We display products based on the latest products we have, if you
-            want to see our old products please enter the name of the item
+            We display products based on the latest products we have. We believe in delivering quality
           </p>
         </div>
       </div>
       <CarouselImage />
-    </>
+    </div>
   );
 };
 

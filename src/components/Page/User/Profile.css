@@ -45,7 +45,7 @@
   margin-bottom: 150px;
 }
 
-.iconDeleteProduct {
+.iconDeleteProduct, .isUpdateProductDetails{
   float: inline-end;
   margin-bottom: 20px;
   margin-right: 20px;
@@ -53,6 +53,10 @@
 
 .iconDeleteProduct:hover {
   color: red;
+}
+
+.isUpdateProductDetails:hover{
+  color:cornflowerblue
 }
 
 .emptyWishList {

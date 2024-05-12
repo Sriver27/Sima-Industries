@@ -7,6 +7,10 @@ import CustomModalForm from "./CustomModalForm";
 import { IconButton } from "@mui/material";
 import AddProductForm from "./AddProductForm";
 import { useSelector } from "react-redux";
+import { collection, onSnapshot, doc, getDoc } from "firebase/firestore";
+import { db } from "../../../utils/firebaseConfig";
+import { useDispatch } from "react-redux";
+import { setCategoriesList } from "../../../store/actions";
 
 const style = {
   position: "absolute",
@@ -24,14 +28,43 @@ const handleBackdropClick = (e) => {
   e.preventDefault();
 };
 
-export default function CustomModal({ open, handleClose }) {
+export default function CustomModal({ open, handleClose, id=null }) {
   const [category, setCategory] = React.useState("");
   const [product, setProduct] = React.useState("");
   const [price, setPrice] = React.useState(0);
   const [productCategory, setProductCategory] = React.useState("");
   const [file, setFile] = React.useState(null);
-  const [dbImageUrl, setDbImageUrl] = React.useState('')
-  const { modalType } = useSelector((state) => state.modal);
+  const [productDesc, setProductDesc] = React.useState("")
+  const [categories, setCategories] = React.useState([])
+  const { modalType, isModalOpen } = useSelector((state) => state.modal);
+  const { isUpdate } = useSelector((state) => state.common);
+  const dispatch = useDispatch();
+
+  React.useEffect(()=>{
+    if(id != null){
+      fetchProductById(id)
+    }
+  },[id])
+
+  const fetchProductById = async (productId) => {
+    try {
+      const docRef = doc(db, "products", productId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const productData = docSnap.data();
+        setProduct(productData.productName)
+        setPrice(productData.price)
+        setProductCategory(productData.categoryType)
+        setProductDesc(productData.productDescription)
+      } else {
+        console.log("No such document!");
+        
+      }
+    } catch (error) {
+      console.error("Error fetching document:", error);
+      
+    }
+  };
 
   const handleSetCategory = (val) => {
     setCategory(val);
@@ -53,14 +86,19 @@ export default function CustomModal({ open, handleClose }) {
     setFile(val)
   }
 
-  const handleSetDbImageUrl = (val) => {
-    setDbImageUrl(val)
+ 
+  const handleProductDescription = (val) => {
+    setProductDesc(val)
   }
+ 
+
+
   return (
     <div>
+     
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={isModalOpen}
+        // onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         disableEscapeKeyDown={true}
@@ -75,7 +113,7 @@ export default function CustomModal({ open, handleClose }) {
             component="h2"
             sx={{ mb: 2 }}
           >
-            Add {modalType}
+            {isUpdate?"Edit":"Add"} {modalType}
           </Typography>
           <CustomModalForm
             handleSetCategory={handleSetCategory}
@@ -86,11 +124,13 @@ export default function CustomModal({ open, handleClose }) {
             product={product}
             price={price}
             file = {file}
-            dbImageUrl={dbImageUrl}
+            updateItemId={id? id:null}
             productCategory={productCategory}
-            handleSetDbImageUrl={handleSetDbImageUrl}
+            handleProductDescription={handleProductDescription}
+            productDesc = {productDesc}
             handleSetFile = {handleSetFile}
             handleClose={handleClose}
+            categories={categories}
           />
           {/* <AddProductForm /> */}
         </Box>

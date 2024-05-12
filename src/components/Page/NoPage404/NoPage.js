@@ -6,7 +6,7 @@ import noPage from "../../assets/404NoPage.svg";
 import "./NoPage.css";
 
 function NoPage() {
-  TabTitle("Lalasia | 404 No Page");
+  TabTitle("Sima Industries | 404 No Page");
   return (
     <div className="NoPageContainer">
       <div className="nopage">

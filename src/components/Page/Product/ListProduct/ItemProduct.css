@@ -1,24 +1,23 @@
-.itemProduct {
+.products_list {
   transition: 0.5s;
   border-radius: 20px;
 }
 
-.itemProduct a {
+.products_list a {
   cursor: pointer;
 }
 
-.itemProduct:hover {
+.products_list:hover {
   box-shadow: 0 10px 15px rgb(182, 182, 182);
+  transform: scale(1);
 }
 
-.itemProduct img {
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  transition: transform 0.3s;
-}
-
-.itemProduct img:hover {
-  transform: scale(1.1);
+.products-container{
+  flex-wrap: wrap;
+  display: flex;
+  margin: auto 5%;
+  justify-content: flex-start;
+  min-height: 75vh;
 }
 
 .itemWraper a:hover {
@@ -26,11 +25,11 @@
 }
 
 .itemWraper p {
-  font-size: 15px;
+  font-size: 20px;
   color: #afadb5;
 
   margin-top: 5px;
-  margin-left: 10px;
+  /* margin-left: 10px; */
   margin-bottom: 0px;
 }
 
@@ -52,15 +51,15 @@
 
 @media screen and (min-width: 767px) and (max-width: 1023px) {
   .itemProduct {
-    width: 250px;
+    width: 50px;
   }
 
   .itemProduct img {
-    width: 250px;
+    width: 50px;
   }
 
   .itemWraper p {
-    font-size: 12px;
+    font-size: 18px;
   }
 
   .itemWraper h1 {
@@ -74,15 +73,15 @@
 
 @media screen and (max-width: 767px) {
   .itemProduct {
-    width: 150px;
+    width: 50px;
   }
 
   .itemProduct img {
-    width: 150px;
+    width: 50px;
   }
 
   .itemWraper p {
-    font-size: 11px;
+    font-size: 20px;
   }
 
   .itemWraper h1 {

@@ -17,7 +17,7 @@ const OrderList = () => {
   const [rebuyProduct, setRebuyProduct] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const { user } = UserAuth();
-  TabTitle("Lalasia | History Pembelian");
+  TabTitle("Sima Industries | History Pembelian");
 
   const orderListRef = collection(db, "users", `${user?.email}`, "orderHistory");
   useEffect(() => {
@@ -86,7 +86,7 @@ const OrderList = () => {
         {orderListData.length === 0 ? (
           <div className="boxOrderWrap">
             <div className="emptyListHistory">
-              <h4>Tampak nya kamu belum membeli Sesuatu di Lalasia</h4>
+              <h4>Tampak nya kamu belum membeli Sesuatu di Sima Industries</h4>
               <p>Cek menu product dan segera wujudkan pembelian mu</p>
             </div>
           </div>

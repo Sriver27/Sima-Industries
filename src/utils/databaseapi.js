@@ -1,2 +1,2 @@
 export const API_URL =
-  "https://my-json-server.typicode.com/Dandy-CP/database-lalasia/";
+  "https://my-json-server.typicode.com/Dandy-CP/database-Sima Industries/";

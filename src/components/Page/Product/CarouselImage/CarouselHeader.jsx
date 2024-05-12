@@ -6,7 +6,6 @@ const CarouselHeader = (props) => {
     <div className="HeaderImg">
       <img src={props.headerImg} alt="HeaderImg" />
       <div className="textcarousel">
-        <div className="discountoffer">Discount</div>
         <h1>{props.title}</h1>
         <h2>{props.desc}</h2>
       </div>

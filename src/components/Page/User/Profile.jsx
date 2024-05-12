@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { UserAuth } from "../../context/authContext";
 import { db } from "../../../utils/firebaseConfig";
-import { updateDoc, doc, onSnapshot } from "firebase/firestore";
+import { updateDoc, doc, onSnapshot, collection, deleteDoc } from "firebase/firestore";
 import { numberWithCommas } from "../../../utils/numberWithCommas";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,52 +12,78 @@ import userAvatar from "../../assets/blank-profile-picture.png";
 import emptyWishList from "../../assets/EmptyWishList.svg";
 import { TabTitle } from "../../../utils/tabTitlePage";
 import CustomModal from "./CustomModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../User/Profile.css";
 import "../Product/ListProduct/ItemProduct.css";
-import { setModalType } from "../../../store/actions";
+import { setIsUpdateProduct, setModalOpen, setModalType } from "../../../store/actions";
+import ItemProduct from "../Product/ListProduct/ItemProduct";
+import ErrorPlaceholder from "../../assets/forbidden.jpeg"
 
 const Profile = () => {
-  const [savedProduct, setSavedProduct] = useState([]);
+  const [addedProducts, setAddedProducts] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [like, setLike] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+   const [tobeUpdateItemId, settobeUpdateItemId] = useState("");
   const { user } = UserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  TabTitle(`Lalasia | Profile ${user?.email}`);
+  const { isModalOpen } = useSelector((state) => state.modal);
+  const { isUpdate } = useSelector((state) => state.common);
+  TabTitle(`Sima Industries | Profile ${user?.email}`);
 
   useEffect(() => {
     onSnapshot(doc(db, "users", `${user?.email}`), (doc) => {
-      setSavedProduct(doc.data()?.savedProduct);
+      // setSavedProduct(doc.data()?.savedProduct);
+      setLoading(true);
+      setIsAdmin(doc.data()?.isAdmin)
+      if(doc.data()?.isAdmin){
+        handleAddedProductsList()
+      }
     });
   }, [user?.email]);
 
-  const productRef = doc(db, "users", `${user?.email}`);
-  const deleteProduct = async (passedID) => {
-    if (user?.email) {
-      setLike(false);
-    }
+  const handleAddedProductsList = async() => {
     try {
-      const result = savedProduct.filter((item) => item.id !== passedID);
-      await updateDoc(productRef, {
-        savedProduct: result,
+       onSnapshot(collection(db, "products"), (snapshot) => {
+        const productsData = snapshot.docs.map((doc) => doc.data())
+        setAddedProducts(productsData);
+        setLoading(false);
       });
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const deleteProduct = async (productId) => {
+    if (!isAdmin) {
+      return;
+    }
+    try {
+      await deleteDoc(doc(db, "products", productId));
+      console.log("Document successfully deleted!");
+    } catch (error) {
+      console.error("Error deleting document: ", error);
+    }
   };
 
   const handleIsModalOpen = (type) => {
-    setIsModalOpen(true);
+    dispatch(setModalOpen(true))
     dispatch(setModalType(type));
   };
 
   const handleClose = () => {
-    setIsModalOpen(false);
+    dispatch(setModalOpen(false))
   };
 
-  const SavedProductCount = Array.isArray(savedProduct)
-    ? savedProduct.length
+  const handleUpdate = (productId) => {
+    settobeUpdateItemId(productId)
+    dispatch(setIsUpdateProduct(true))
+    handleIsModalOpen("Product")
+  }
+
+  const AddedProductCount = Array.isArray(addedProducts)
+    ? addedProducts.length
     : null;
 
   return (
@@ -71,7 +97,7 @@ const Profile = () => {
           <div className="userInfo">
             <h1>{user.displayName}</h1>
             <h3>{user.email}</h3>
-            <Box className="btn-grp">
+            { isAdmin && <Box className="btn-grp">
               <Button
                 sx={{ marginRight: 2, borderRadius: 3, fontWeight: "bold" }}
                 onClick={() => handleIsModalOpen("Category")}
@@ -86,54 +112,44 @@ const Profile = () => {
               >
                 Add Product
               </Button>
-            </Box>
+            </Box>}
           </div>
         </div>
       </div>
-
+{ isAdmin ? <>
       <div className="titleSavedProduct">
-        <h1>Produk yang sudah anda sukai</h1>
+        <h1>Products added by you to the catalogue</h1>
       </div>
 
-      <div className="userSavedProduct">
-        {SavedProductCount === 0 ? (
+      <div>
+        {AddedProductCount === 0 ? (
           <div className="emptyWishList">
             <img src={emptyWishList} alt="emptywishlist" width={300} />
-            <h2>Tampak Nya Kamu Belum memasukan produk ke dalam Wishlist</h2>
-            <p>Masuk menu product dan pilih produk yang ingin kamu sukai</p>
+            <h2>It looks like you haven't added the products to products catalogue</h2>
+            <p>Simply hit the Add Product button and add a product to the catalogue</p>
           </div>
         ) : (
-          <>
-            {Array.isArray(savedProduct)
-              ? savedProduct.map((item) => (
-                  <div className="itemProduct" key={item.id}>
-                    <div className="itemWraper">
-                      <a
-                        onClick={() =>
-                          navigate(`../product/${item.category}/${item.id}`)
-                        }
-                      >
-                        <img src={item?.img} alt="ProductImage" />
-                        <h1>{item?.nama}</h1>
-                        <p>{item?.tagline}</p>
-                        <h2>Rp.{numberWithCommas(item?.harga)}</h2>
-                      </a>
-                      <span
-                        style={{ cursor: "pointer" }}
-                        onClick={() => deleteProduct(item.id)}
-                        className="iconDeleteProduct"
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} size="xl" />
-                      </span>
-                    </div>
-                  </div>
+          <div className="addedProductList">
+            {Array.isArray(addedProducts)
+              ? addedProducts.map((item) => (
+                  
+                  <ItemProduct key={item.id} product={item} loading={loading} isProfileWindow={true} deleteProduct={deleteProduct} isAdmin={isAdmin} handleUpdate={handleUpdate}/>
                 ))
               : null}
-          </>
+          </div>
         )}
       </div>
+      </>
+      :
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop:"15px" }}>
+          <img src={ErrorPlaceholder} alt="ErrorPlaceholder" width={600} style={{ mixBlendMode: "multiply" }} />
+          <h2>You don't have admin access to add product to products list</h2>
+        </div>
+      }
       {isModalOpen && (
-        <CustomModal open={isModalOpen} handleClose={handleClose} />
+        isUpdate?
+        <CustomModal handleClose={handleClose} id={tobeUpdateItemId}/>:
+        <CustomModal handleClose={handleClose} />
       )}
     </React.Fragment>
   );

@@ -1,1 +1,5 @@
 export const SET_MODAL_TYPE = "SET_MODAL_TYPE";
+export const SET_IS_MODAL_OPEN = "SET_IS_MODAL_OPEN";
+export const SET_CATEGORIES = "SET_CATEGORIES";
+export const SET_GLOBAL_DISABLE = "SET_GLOBAL_DISABLE";
+export const SET_IS_UPDATE = "SET_IS_UPDATE";

@@ -1,9 +1,9 @@
 
-# Project Lalasia
+# Project Sima Industries
 
-Lalasia is a standalone Frontend project. Designed by Sicle Team Coded by Dandy Candra.
+Sima Industries is a standalone Frontend project. Designed by Sicle Team Coded by Dandy Candra.
 
-Preview Demo : https://project-lalasia.vercel.app/
+Preview Demo : https://project-Sima Industries.vercel.app/
 
 
 
@@ -55,13 +55,13 @@ Preview Demo : https://project-lalasia.vercel.app/
 Clone the project
 
 ```bash
-  git clone https://github.com/Dandy-CP/project-lalasia.git
+  git clone https://github.com/Dandy-CP/project-Sima Industries.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd project-lalasia
+  cd project-Sima Industries
 ```
 
 Install dependencies

@@ -30,7 +30,7 @@ const CheckOut = () => {
   const { user } = UserAuth();
   const unique_id = uuid().slice(0, 8);
   const navigate = useNavigate();
-  TabTitle("Lalasia | Checkout");
+  TabTitle("Sima Industries | Checkout");
 
   const kurir = [
     {
@@ -179,7 +179,7 @@ const CheckOut = () => {
       )}
 
       <div className="Navigation">
-        <img src={Logo} alt="LogoLalasia" />
+        <img src={Logo} alt="LogoSima Industries" />
       </div>
 
       <div className="checkOutContainer">

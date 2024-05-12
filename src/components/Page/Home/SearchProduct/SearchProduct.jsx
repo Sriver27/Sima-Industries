@@ -4,20 +4,36 @@ import { API_URL } from "../../../../utils/databaseapi";
 import { numberWithCommas } from "../../../../utils/numberWithCommas";
 import { useNavigate } from "react-router-dom";
 import "./SearchProduct.css";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../../../utils/firebaseConfig";
 
 const SearchProduct = () => {
   const navigate = useNavigate();
   const [productSearch, setProductSearch] = useState([]);
   const [searchData, setSearchData] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios.get(API_URL + "products").then((res) => setProductSearch(res.data));
-  }, []);
+    const fetchProduct = async () => {
+      setLoading(true);
+      onSnapshot(collection(db, "products"), (snapshot) => {
+        const productsData = snapshot.docs.map((doc) => doc.data())
+        setProductSearch(productsData);
+        setLoading(false);
+      });
+    };
+    if(searchText){
+      fetchProduct();
+    }
+  }, [searchText]);
 
   const handleSearch = (event) => {
     const searchWord = event.target.value;
+    setSearchText(searchWord)
     const newFilter = productSearch.filter((value) => {
-      return value.nama.toLowerCase().includes(searchWord.toLowerCase());
+      return value.productName.toLowerCase().includes(searchWord.toLowerCase()) || 
+      value.categoryType.toLowerCase().includes(searchWord.toLowerCase());
     });
 
     if (searchWord === "") {
@@ -46,13 +62,12 @@ const SearchProduct = () => {
               <a
                 key={value.id}
                 className="dataItem"
-                onClick={() =>navigate(`product/${value.category.id}/${value.id}`)}>
-                <img src={value.gambar} alt={value.nama} />
+                onClick={() =>navigate(`product/${value.categoryType}/${value.id}`)}>
+                <img src={value.imageUrl} alt={value.productName} />
                 <span>
-                  <p>{value.category.nama}</p>
-                  <h1>{value.nama}</h1>
-                  <p>{value.tagline}</p>
-                  <h2>Rp. {numberWithCommas(value.harga)}</h2>
+                  <p>{value.categoryType}</p>
+                  <h1>{value.productName}</h1>
+                  <h2>Rs. {numberWithCommas(value.price)}</h2>
                 </span>
               </a>
             );

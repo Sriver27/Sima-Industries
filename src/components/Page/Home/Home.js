@@ -8,13 +8,12 @@ import Testimoni from "../Home/Testimoni/Testimoni";
 import { TabTitle } from "../../../utils/tabTitlePage";
 
 function Home() {
-  TabTitle("Lalasia | Home");
+  TabTitle("Sima Industries | Home");
 
   return (
     <div className="Home">
       <Header />
       <Benefits />
-      <Carousel />
       <OurProduct />
       <Testimoni />
     </div>

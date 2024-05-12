@@ -18,7 +18,7 @@ import "../Navbar/DropMenuUser.css";
 import "../Navbar/DropMenuCart.css";
 import "../Navbar/HamburgerMenu.css";
 
-import Logo from "../../../assets/Logo.png";
+import Logo from "../../../assets/logo2_cropped.png";
 import MenuHamburgerIcon from "../../../assets/HamburgerMenuIcon.png";
 import CrossIcon from "../../../assets/CrossIcon.png";
 import UserProfilePict from "../../../assets/blank-profile-picture.png";
@@ -59,32 +59,11 @@ const Navbar = () => {
   return (
     <div className="Navigation">
       <Link to="/">
-        <img src={Logo} alt="Logo" className="logomobile" />
+        <img src={Logo} alt="Logo" className="logomobile" style={{width:"110px", transform:"scale(1.3)"}}/>
       </Link>
 
       <div className="hamburgermenumobile">
-        {user?.email ? (
-          <div className="cartMenuMobile">
-            <Link to="/cart">
-              {itemCount === 0 ? (
-                <React.Fragment>
-                  <button className="btnUserCartMobile">
-                    <FontAwesomeIcon icon={faCartFlatbed} size="xl" />
-                  </button>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <button className="btnUserCartMobile">
-                    <FontAwesomeIcon icon={faCartFlatbed} size="xl" />
-                    <div className="itemCounter">{itemCount}</div>
-                  </button>
-                </React.Fragment>
-              )}
-            </Link>
-          </div>
-        ) : (
-          <></>
-        )}
+        
 
         <Menu
           width={"100%"}
@@ -106,14 +85,7 @@ const Navbar = () => {
                   <div className="profileBtn">
                     <FontAwesomeIcon icon={faUser} size="sm" />
                     <Link to="/profile" onClick={closeSideBar}>
-                      Profile Saya
-                    </Link>
-                  </div>
-
-                  <div className="pembelianBtn">
-                    <FontAwesomeIcon icon={faCashRegister} size="sm" />
-                    <Link to="/orderList" onClick={closeSideBar}>
-                      Pembelian
+                      Profile
                     </Link>
                   </div>
 
@@ -151,9 +123,6 @@ const Navbar = () => {
             Product
           </Link>
 
-          <a href="https://github.com/Dandy-CP/project-lalasia" className="menu-item" target="_blank">
-              About Project
-          </a>
         </Menu>
       </div>
 
@@ -177,74 +146,16 @@ const Navbar = () => {
                 isActive ? activeClassName : undefined
               }
             >
-              Product
+              Products
             </NavLink>
           </li>
 
-          <li className="Menu">
-            <a href="https://github.com/Dandy-CP/project-lalasia" target="_blank">
-              About Project
-            </a>
-          </li>
         </ul>
       </nav>
 
       {user?.email ? (
         <div className="ButtonUserLogin">
-          <div className="dropDownCart">
-            <Link to="/cart">
-              {itemCount === 0 ? (
-                <React.Fragment>
-                  <button className="btnUserCart">
-                    <FontAwesomeIcon icon={faCartFlatbed} size="xl" />
-                  </button>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <button className="btnUserCart">
-                    <FontAwesomeIcon icon={faCartFlatbed} size="xl" />
-                    <div className="itemCounter">{itemCount}</div>
-                  </button>
-                </React.Fragment>
-              )}
-            </Link>
-
-            <div className="listCartDropdown">
-              {itemCount === 0 ? (
-                <div className="emptyCart">
-                  <img src={EmptyCartImg} alt="emptyCart" width={200} />
-                  <h4>Keranjang Kamu Kosong</h4>
-                  <p>
-                    Sepertinya kamu belum menambahkan apapun ke keranjang. Pilih
-                    menu product untuk mulai menelusuri produk - produk kami
-                  </p>
-                </div>
-              ) : Array.isArray(userCart) ? (
-                userCart.slice(0, 2).map((item) => (
-                  <React.Fragment key={item.id}>
-                    <a href="">
-                      <div className="itemCartWraper">
-                        <div className="imgCartProduct">
-                          <img src={item.img} alt="" width={100} />
-                        </div>
-
-                        <div className="cartItemDetail">
-                          <h1>
-                            {item.qty}x {item.nama}
-                          </h1>
-                          <h2>Rp. {numberWithCommas(item.harga)}</h2>
-                        </div>
-                      </div>
-                    </a>
-                    <div className="allItemCart">
-                      <Link to="/cart">Lihat Semua Item {itemCount}</Link>
-                    </div>
-                  </React.Fragment>
-                ))
-              ) : null}
-            </div>
-          </div>
-
+          
           <div className="dropDownUser">
             <button className="btnUserAccount">
               <img src={UserProfilePict} alt="" />
@@ -255,12 +166,7 @@ const Navbar = () => {
 
               <div className="profileBtn">
                 <FontAwesomeIcon icon={faUser} size="xl" />
-                <Link to="/profile">Profile Saya</Link>
-              </div>
-
-              <div className="pembelianBtn">
-                <FontAwesomeIcon icon={faCashRegister} size="xl" />
-                <Link to="/orderList">Pembelian</Link>
+                <Link to="/profile">Profile</Link>
               </div>
 
               <div className="logOutBtn">

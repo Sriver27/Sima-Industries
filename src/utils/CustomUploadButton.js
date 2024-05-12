@@ -7,6 +7,7 @@ import { Button } from "@material-ui/core";
 import { Clear } from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 export const AvatarInput = styled.div`
   margin-bottom: 32px;
@@ -79,6 +80,7 @@ export default function CustomUploadButton({
     // setUrl(files.base64);
     console.log(e.target.files);
     handleSetFile(e.target.files[0]);
+    setUrl(URL.createObjectURL(e.target.files[0]));
   };
 
   const clearImage = () => {
@@ -86,8 +88,9 @@ export default function CustomUploadButton({
   };
 
   return (
-    <div className="container">
-      <>
+    <div className="container" style={{paddingTop: "25px",
+      paddingBottom: "15px"}}>
+      <div>
         {url !== defaultImgUrl && (
           <AvatarInput>
             <img src={url} alt="Avatar Placeholder" />
@@ -98,26 +101,18 @@ export default function CustomUploadButton({
         )}
 
         {url === defaultImgUrl && (
-          <input type="file" onChange={handleFiles}>
-            {/* <Stack
-              direction="row"
-              spacing={1}
-              sx={{
-                border: "2px solid black",
-                p: 1,
-                mb: 2,
-                borderRadius: "10px",
-                cursor: "pointer",
-              }}
-            >
-              <CameraAltIcon sx={{ width: 30, height: 30, color: "blue" }} />
-              <Typography id="upload-text" variant="h6" component="h4">
-                Upload
-              </Typography>
-            </Stack> */}
-          </input>
+
+          <div>
+          <label htmlFor="file-upload" className="custom-file-upload">
+            <Stack direction="row" spacing={1}>
+
+           <CloudUploadIcon sx={{paddingRight:1, color:"black"}}/>Upload
+            </Stack>
+      </label>
+          <input id="file-upload" type="file" accept="image/*" onChange={handleFiles}/>
+          </div>
         )}
-      </>
+      </div>
     </div>
   );
 }

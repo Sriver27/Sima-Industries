@@ -1,37 +1,39 @@
 import React, { useEffect } from "react";
 import "./ListCategories.css";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../../../utils/firebaseConfig";
 
 const ListCategories = ({setActiveProduct, activeProduct, setFiltered, product}) => {
+  
   useEffect(() => {
-    if (activeProduct === 0) {
-      setFiltered(product);
-      return;
-    }
-    const filtered = product.filter((barang) => {
-      return barang.category.id === activeProduct;
+    const filtered = product.filter((item) => {
+      return item.categoryType === activeProduct;
     });
     setFiltered(filtered);
   }, [activeProduct]);
+
+  const [categoryList, setCategoryList] = React.useState([]);
+  const handleSetCategories = () => {
+    onSnapshot(collection(db, "category"), (snapshot) => {
+      const categoriesData = snapshot.docs.map((doc) => doc.data())
+      setCategoryList(categoriesData);
+    });
+    
+  }
+
+  React.useEffect(()=>{
+    handleSetCategories();
+  },[])
 
   return (
     <div className="categories">
       <div className="tabs_wrap">
         <ul>
-          <li className={activeProduct === 0 ? "active" : ""} onClick={() => setActiveProduct(0)}>
-            All Product
-          </li>
-
-          <li className={activeProduct === 1 ? "active" : ""} onClick={() => setActiveProduct(1)}>
-            Kursi
-          </li>
-
-          <li className={activeProduct === 2 ? "active" : ""} onClick={() => setActiveProduct(2)}>
-            Meja
-          </li>
-
-          <li className={activeProduct === 3 ? "active" : ""} onClick={() => setActiveProduct(3)}>
-            Lemari
-          </li>
+          {categoryList.map((category) => (
+            <li className={activeProduct === category.categoryType? "active" : ""} key={category.id} onClick={() => setActiveProduct(category.categoryType)}>
+              {category.categoryType}
+            </li>
+          ))}
         </ul>
       </div>
     </div>

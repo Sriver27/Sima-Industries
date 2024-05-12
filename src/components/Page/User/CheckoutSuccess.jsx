@@ -13,7 +13,7 @@ const CheckoutSuccess = () => {
   const [order, setOrder] = useState([]);
   const { user } = UserAuth();
   let { orderid } = useParams();
-  TabTitle("Lalasia | Checkout Suksess");
+  TabTitle("Sima Industries | Checkout Suksess");
 
   const orderRef = collection(db, "users", `${user?.email}`, "orderHistory");
   const getOrder = query(orderRef, where("orderid", "==", `${orderid}`));
@@ -43,7 +43,7 @@ const CheckoutSuccess = () => {
       {dataOrder.map((data) => (
         <div className="transfer" key={data.pembayaran}>
           <h3>Transfer Ke Nomor Rekening {data.pembayaran}:</h3>
-          <label>A/N Lalasia Project</label>
+          <label>A/N Sima Industries Project</label>
           <div className="norek">
             {/* <img src={mandiri} alt="logobank" width={100} /> */}
             <h4>0000-0000-0000</h4>

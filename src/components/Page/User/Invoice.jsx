@@ -16,7 +16,7 @@ const Invoice = () => {
   let { invoice } = useParams();
   const getInvoice = invoice.split("-").join("/");
   const componentRef = useRef();
-  TabTitle(`Lalasia | ${getInvoice}`);
+  TabTitle(`Sima Industries | ${getInvoice}`);
 
 
   const invoiceDataRef = collection(db, "users", `${user?.email}`, "orderHistory");
@@ -57,7 +57,7 @@ const Invoice = () => {
             <div className="diterbikanAtasNama">
               <h5>DITERBITKAN ATAS NAMA</h5>
               <p>
-                Penjual: <b>Lalasia</b>
+                Penjual: <b>Sima Industries</b>
               </p>
             </div>
             {data.address.map((alamat) => (
