@@ -32,10 +32,10 @@ const ProductList = ({currTab = {}}) => {
       });
     };
     fetchProduct();
-    Object.keys(currTab).length > 0 && setActiveProduct(currTab)
+    currTab != {} && setActiveProduct(currTab)
   },[])
   useEffect(() => {   
-    if(activeProduct != "" && activeProduct == "All Products") {
+    if(activeProduct != "" && activeProduct != "All Products") {
       const filteredList =  product.filter((item) =>
         item.categoryType.toLowerCase().includes(activeProduct.toLowerCase())
       )
@@ -43,7 +43,7 @@ const ProductList = ({currTab = {}}) => {
     } else if(activeProduct == "All Products" ){
       setFiltered(product)
     }
-  }, [activeProduct]);
+  }, [activeProduct, product]);
 
   const indexOfLastPage = currentPage * productPerPage;
   const indexOfFirstPage = indexOfLastPage - productPerPage;
