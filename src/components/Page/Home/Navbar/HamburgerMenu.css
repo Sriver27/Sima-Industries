@@ -1,5 +1,8 @@
 .hamburgermenumobile {
-  display: none;
+  display: flex;
+    /* align-items: center; */
+    /* align-content: center; */
+    margin-left: auto;
 }
 
 /* Position and sizing of burger button */
@@ -45,6 +48,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: white;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
+  overflow: hidden;
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -66,8 +70,8 @@ Note: Beware of modifying this element as it can break the animations - you shou
 /* Individual item */
 .bm-item {
   display: inline-block;
-  margin-bottom: 20px;
-  font-size: 25px;
+  /* margin-bottom: 20px; */
+  font-size: 20px;
 }
 
 /* Styling of overlay */

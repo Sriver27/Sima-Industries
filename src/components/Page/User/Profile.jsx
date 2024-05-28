@@ -6,7 +6,7 @@ import { numberWithCommas } from "../../../utils/numberWithCommas";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBold, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { Button, Box } from "@mui/material";
+import { Button, Box, Grid } from "@mui/material";
 import bannerProfile from "../../assets/bannerProfile.png";
 import userAvatar from "../../assets/blank-profile-picture.png";
 import emptyWishList from "../../assets/EmptyWishList.svg";
@@ -99,7 +99,7 @@ const Profile = () => {
             <h3>{user.email}</h3>
             { isAdmin && <Box className="btn-grp">
               <Button
-                sx={{ marginRight: 2, borderRadius: 3, fontWeight: "bold" }}
+                sx={{ marginRight: 2, borderRadius: 3, fontWeight: "bold", mb:2 }}
                 onClick={() => handleIsModalOpen("Category")}
                 variant="outlined"
               >
@@ -129,14 +129,15 @@ const Profile = () => {
             <p>Simply hit the Add Product button and add a product to the catalogue</p>
           </div>
         ) : (
-          <div className="addedProductList">
+          <Grid container rowSpacing={2} columnSpacing={2.5} sx={{margin:"auto"}}>
             {Array.isArray(addedProducts)
               ? addedProducts.map((item) => (
-                  
-                  <ItemProduct key={item.id} product={item} loading={loading} isProfileWindow={true} deleteProduct={deleteProduct} isAdmin={isAdmin} handleUpdate={handleUpdate}/>
+                <Grid item xs={10} sm={12} md={6} lg={4} sx={{display:"flex", alignItems:"center", justifyContent:"center"}} key={item.id}>
+                  <ItemProduct  product={item} loading={loading} isProfileWindow={true} deleteProduct={deleteProduct} isAdmin={isAdmin} handleUpdate={handleUpdate}/>
+                  </Grid>
                 ))
               : null}
-          </div>
+          </Grid>
         )}
       </div>
       </>

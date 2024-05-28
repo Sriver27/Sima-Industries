@@ -8,14 +8,16 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { Avatar, CardActionArea, Chip } from '@mui/material';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import {Stack} from "@mui/material";
+import { subCollections } from "../../../../utils/utils";
 
-const ItemProduct = ({ product, loading, isProfileWindow = false, deleteProduct, isAdmin,handleUpdate }) => {
+const ItemProduct = ({ product, loading, isProfileWindow = false, deleteProduct, isAdmin,handleUpdate, subcollection_name="" }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const iconSubPath = subCollections?.[product.categoryType]?.icon;
   if (loading) {
     return <Skeleton count={5} />;
   }
@@ -47,7 +49,7 @@ const ItemProduct = ({ product, loading, isProfileWindow = false, deleteProduct,
   };
 
   return (
-    <Card sx={{ maxWidth: "35%", width:350, borderRadius: "20px" }} className="products_list">
+    <Card sx={{  width:"350px", borderRadius: "20px" }} className="products_list">
         {/* <a onClick={handleClick}> */}
     <CardActionArea onClick={handleClick}>
       <div className="itemWraper">
@@ -68,11 +70,20 @@ const ItemProduct = ({ product, loading, isProfileWindow = false, deleteProduct,
                       </span>
           </Stack>}
         <CardMedia component="img" className="productImg"
-           image={product.imageUrl} alt="ProductImage" sx={{height:"50%", minHeight:"50%",borderTopLeftRadius:"20px", borderTopRightRadius:"20px", transition: "transform 0.3s"}}/>
-          <CardContent sx={{paddingBottom:0, textAlign:"center"}}>
-          <Typography gutterBottom variant="h5" component="div">{product.productName}</Typography>
-          <p >{product.categoryType}</p>
-          <Typography gutterBottom variant="h6" component="div">Rs.{numberWithCommas(product.price)}</Typography>
+           image={product.imageUrl} alt="ProductImage" sx={{height:"30vh",borderTopLeftRadius:"20px", borderTopRightRadius:"20px"}}/>
+          <CardContent sx={{paddingBottom:0}}>
+          <Typography gutterBottom variant="h6" component="div">{product.productName}</Typography>
+          {subcollection_name != ""?<Stack direction={"row"} spacing={2} sx={{mb:0.7}}>
+
+          <p style={{padding:"5px 0 8px 0"}}>{product.categoryType}</p>
+          <Chip
+            avatar={<Avatar alt={subcollection_name} src={require(`../../../assets/${iconSubPath}`)} />}
+            label={subcollection_name}
+            variant="outlined"
+            sx={{color:"green", fontWeight:"bold"}}
+          />
+          </Stack>:<p >{product.categoryType}</p>}
+          <Typography gutterBottom variant="h5" component="div">Rs.{numberWithCommas(product.price)}</Typography>
           </CardContent>
       </div>
       </CardActionArea>

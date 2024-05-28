@@ -18,6 +18,7 @@ import OrderList from "./components/Page/User/OrderList";
 import Invoice from "./components/Page/User/Invoice";
 
 import "./App.css";
+import CollectionsPage from "./components/Page/User/CollectionsPage";
 
 function App() {
   return (
@@ -64,6 +65,11 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
+              <Route
+                exact path="collection/:collection_name/:subcollection_name"
+                element={<CollectionsPage />}
+                />
 
               <Route
                 path="orderList"

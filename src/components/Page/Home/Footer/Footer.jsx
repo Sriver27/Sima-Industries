@@ -10,7 +10,7 @@ const Footer = () => {
       We believe in delivering quality and the best in class furnitures
       </div>
       <div className="container-company">
-      <img src={Logo} alt="Logo" className="logomobile" style={{width:"110px", transform:"scale(1.3)"}}/>
+      <img src={Logo} alt="Logo" className="logomobile" style={{width:"105px", transform:"scale(1.3)"}}/>
       <div className="product-name">
         Sima Industries
       </div>

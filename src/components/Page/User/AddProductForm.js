@@ -5,12 +5,16 @@ import {
   Select,
   MenuItem,
   InputAdornment,
+  OutlinedInput,
+  Box,
+  Chip,
 } from "@mui/material";
 import CustomUploadButton from "../../../utils/CustomUploadButton";
 import { useSelector, useDispatch } from "react-redux";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../utils/firebaseConfig";
 import { setCategoriesList } from "../../../store/actions";
+import { collections, subCollections } from "../../../utils/utils";
 
 const AddProductForm = ({
   handleSetProduct,
@@ -24,6 +28,8 @@ const AddProductForm = ({
   productDesc,
   handleProductDescription,
   file,
+  handleSetSubCollections,
+  productSubCollections,
 }) => {
   const {modal:{categories, isModalOpen}, common:{isGlobalDisable}} = useSelector(state=>state)
   const dispatch = useDispatch();
@@ -82,6 +88,27 @@ const AddProductForm = ({
         </MenuItem>
         }
       </Select>
+      <InputLabel id="demo-simple-select-label">Sub-collection</InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        required
+        onChange={(e) => handleSetSubCollections(e.target.value)}
+        label="Age"
+        disabled={isGlobalDisable}
+        value={productSubCollections}
+      >
+        {
+        productCategory && subCollections?.[productCategory]?.items &&  subCollections?.[productCategory]?.length !== 0?subCollections?.[productCategory]?.items.map((item) => (
+          <MenuItem key={item?.id} value={item?.name}>
+            {item?.name}
+          </MenuItem>
+        )):
+        <MenuItem  value={"No sub-collections present"}>
+            No sub-collections present
+        </MenuItem>
+        }
+      </Select>
       <TextField
         id="outlined-basic"
         label="Enter Price"
@@ -108,7 +135,7 @@ const AddProductForm = ({
         fullWidth
         onChange={(e) => handleProductDescription(e.target.value)}
         sx={{ marginTop: 2.5 }}
-      />
+      />  
     </div>
   );
 };

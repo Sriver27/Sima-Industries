@@ -11,3 +11,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.custom-modal-box{
+  width:400px;
+}
+
+.nav-icons{
+  padding-right: 25px;
+}
+
+.breadcrumbs {
+  font-size: 0.8rem;
+  color: #ff9800;
+  margin: 2% 7%;
+}
+
+.breadcrumbs a {
+  text-decoration: none;
+  color: dimgray;
+}
+
+@media screen and (min-width: 767px) and (max-width: 1023px) {
+  .custom-modal-box{
+    width:350px;
+  }
+}
+
+@media screen and (max-width: 767px){
+  .custom-modal-box{
+    width:290px;
+  }
+}

@@ -10,6 +10,10 @@
   border-color: 5px black;
 }
 
+.list-categories{
+  width: 25vw;
+}
+
 .tabs_wrap {
   padding: 10px;
   border-bottom: 1px solid #ebedec;
@@ -25,7 +29,7 @@
 }
 
 .tabs_wrap ul li {
-  width: 135px;
+  width: 80px;
   text-align: center;
   margin-left: 0px;
   background: #e9ecf1;
@@ -61,11 +65,19 @@
   }
 
   .tabs_wrap {
-    width: 350px;
     font-size: 10px;
   }
 
   .tabs_wrap ul {
     padding-left: 0px;
+  }
+
+  .tabs_wrap ul li{
+    width: 30px;
+    padding: 3px 5px;
+  }
+
+  .list-categories{
+    width: 50vw;
   }
 }

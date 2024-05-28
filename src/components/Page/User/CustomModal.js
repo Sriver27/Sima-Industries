@@ -12,12 +12,13 @@ import { db } from "../../../utils/firebaseConfig";
 import { useDispatch } from "react-redux";
 import { setCategoriesList } from "../../../store/actions";
 
+console.log("screen width:", window.innerWidth)
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  // width: 400,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -36,6 +37,7 @@ export default function CustomModal({ open, handleClose, id=null }) {
   const [file, setFile] = React.useState(null);
   const [productDesc, setProductDesc] = React.useState("")
   const [categories, setCategories] = React.useState([])
+  const [subCollections, setSubCollections] = React.useState("")
   const { modalType, isModalOpen } = useSelector((state) => state.modal);
   const { isUpdate } = useSelector((state) => state.common);
   const dispatch = useDispatch();
@@ -65,6 +67,10 @@ export default function CustomModal({ open, handleClose, id=null }) {
       
     }
   };
+
+  const handleSetSubCollections = (val) => {
+    setSubCollections(val)
+  }
 
   const handleSetCategory = (val) => {
     setCategory(val);
@@ -106,7 +112,7 @@ export default function CustomModal({ open, handleClose, id=null }) {
           onClick: handleBackdropClick,
         }}
       >
-        <Box sx={style}>
+        <Box sx={style} className = "custom-modal-box">
           <Typography
             id="modal-modal-title"
             variant="h6"
@@ -131,6 +137,8 @@ export default function CustomModal({ open, handleClose, id=null }) {
             handleSetFile = {handleSetFile}
             handleClose={handleClose}
             categories={categories}
+            handleSetSubCollections={handleSetSubCollections}
+            subCollections={subCollections}
           />
           {/* <AddProductForm /> */}
         </Box>

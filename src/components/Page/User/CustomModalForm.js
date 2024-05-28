@@ -30,7 +30,9 @@ const CustomModalForm = ({
   handleSetFile,
   productDesc,
   handleProductDescription,
-  updateItemId=null
+  updateItemId=null,
+  handleSetSubCollections,
+  subCollections
 }) => {
   const { modal:{modalType}, common:{isGlobalDisable} } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -57,6 +59,8 @@ const CustomModalForm = ({
             setDbImageUrl(url)
             
       const value = collection(db, "products");
+      const productsCollection = collection(db, subCollections)
+      const productCollectionRef = doc(productsCollection, id);
       const docRef = doc(value, id);
         
            setDoc(docRef, {
@@ -66,6 +70,17 @@ const CustomModalForm = ({
             categoryType: productCategory,
             productDescription:productDesc,
             imageUrl: url,
+            collection: subCollections !== "No sub-collections present"? subCollections: ""
+          })
+          subCollections !== "No sub-collections present" &&
+          setDoc(productCollectionRef, {
+            id: id,
+            productName: product,
+            price: price,
+            categoryType: productCategory,
+            productDescription:productDesc,
+            imageUrl: url,
+            collection: subCollections
           })
           dispatch(setIsGlobalDisabled(false))
           handleClose();
@@ -107,7 +122,8 @@ const CustomModalForm = ({
   }
 
   return (
-    <div>
+    <>
+    <div style={{height:"70vh", overflowY:"scroll",width:"auto"}}>
       {modalType === "Category" ? (
         <AddCategoryForm handleSetCategory={handleSetCategory} category={category} />
       ) : (
@@ -123,45 +139,48 @@ const CustomModalForm = ({
           price={price}
           productCategory={productCategory}
           file={file}
+          handleSetSubCollections={handleSetSubCollections}
+          productSubCollections={subCollections}
         />
       )}
-      <Box
-        className="btn-grp"
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          marginTop: 4,
-        }}
-      >
-        <Button
-          sx={{ marginRight: 2, borderRadius: 2, fontWeight: "bold" }}
-          variant="outlined"
-          onClick={handleClose}
-          disabled={isGlobalDisable}
-        >
-          Cancel
-        </Button>
-
-        { modalType == "Category"?
-         <Button
-         sx={{ borderRadius: 2, fontWeight: "bold" }}
-         variant="contained"
-         onClick={()=>{handleAddCategory();}}
-         disabled={isGlobalDisable}
-       >
-         {isGlobalDisable?<CircularProgress />:"Submit"}
-       </Button>:
-          <Button
-          sx={{ borderRadius: 2, fontWeight: "bold" }}
-          variant="contained"
-          onClick={()=>{handleUploadToDB();}}
-          disabled={isGlobalDisable}
-        >
-          {isGlobalDisable?<CircularProgress />:"Submit"}
-        </Button>}
-      </Box>
     </div>
+    <Box
+    className="btn-grp"
+    sx={{
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      marginTop: 3,
+    }}
+  >
+    <Button
+      sx={{ marginRight: 2, borderRadius: 2, fontWeight: "bold" }}
+      variant="outlined"
+      onClick={handleClose}
+      disabled={isGlobalDisable}
+    >
+      Cancel
+    </Button>
+
+    { modalType == "Category"?
+     <Button
+     sx={{ borderRadius: 2, fontWeight: "bold" }}
+     variant="contained"
+     onClick={()=>{handleAddCategory();}}
+     disabled={isGlobalDisable}
+   >
+     {isGlobalDisable?<CircularProgress />:"Submit"}
+   </Button>:
+      <Button
+      sx={{ borderRadius: 2, fontWeight: "bold" }}
+      variant="contained"
+      onClick={()=>{handleUploadToDB();}}
+      disabled={isGlobalDisable}
+    >
+      {isGlobalDisable?<CircularProgress />:"Submit"}
+    </Button>}
+  </Box>
+  </>
   );
 };
 

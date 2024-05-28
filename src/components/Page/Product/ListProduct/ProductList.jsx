@@ -10,8 +10,9 @@ import { useSelector } from "react-redux";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../../utils/firebaseConfig";
 import ErrorPlaceholder from "../../../assets/error.jpg"
+import { Grid } from "@mui/material";
 
-const ProductList = () => {
+const ProductList = ({currTab = {}}) => {
   const [product, setProduct] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [activeProduct, setActiveProduct] = useState("");
@@ -20,7 +21,7 @@ const ProductList = () => {
   const [productPerPage] = useState(6);
   const [searchProduct, setSearchProduct] = useState("");
 
-  useEffect(() => {
+  useEffect(()=>{
     const fetchProduct = async () => {
       setLoading(true);
       onSnapshot(collection(db, "products"), (snapshot) => {
@@ -31,7 +32,18 @@ const ProductList = () => {
       });
     };
     fetchProduct();
-  }, []);
+    Object.keys(currTab).length > 0 && setActiveProduct(currTab)
+  },[])
+  useEffect(() => {   
+    if(activeProduct != "" && activeProduct == "All Products") {
+      const filteredList =  product.filter((item) =>
+        item.categoryType.toLowerCase().includes(activeProduct.toLowerCase())
+      )
+      setFiltered(filteredList)
+    } else if(activeProduct == "All Products" ){
+      setFiltered(product)
+    }
+  }, [activeProduct]);
 
   const indexOfLastPage = currentPage * productPerPage;
   const indexOfFirstPage = indexOfLastPage - productPerPage;
@@ -39,17 +51,21 @@ const ProductList = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
-    if (searchProduct !== "") {
-      const filteredList = product.filter((item) =>
-        item.productName.toLowerCase().includes(searchProduct.toLowerCase()) ||
-        item.productDescription.toLowerCase().includes(searchProduct.toLowerCase()) ||
-        item.categoryType.toLowerCase().includes(searchProduct.toLowerCase())
-      );
-      setFiltered(filteredList);
-    } else {
-      setFiltered(product);
-    }
-  }, [searchProduct, product]);
+    const filteredBySearch = searchProduct != ""
+      ? product.filter((item) =>
+          item.productName.toLowerCase().includes(searchProduct.toLowerCase()) ||
+          item.productDescription.toLowerCase().includes(searchProduct.toLowerCase()) ||
+          item.categoryType.toLowerCase().includes(searchProduct.toLowerCase())
+        )
+      : product;
+
+    const filterByTabType = currTab != {} ? product.filter((item) =>
+      item.categoryType.includes(currTab)
+    ): filteredBySearch
+
+   (currTab != {} || searchProduct != "") &&  setFiltered(filterByTabType);
+  }, [searchProduct, product, currTab]);
+  
 
   return (
     <React.Fragment>
@@ -59,7 +75,7 @@ const ProductList = () => {
             type="text"
             name="search"
             id="search"
-            placeholder="Search Property"
+            placeholder="Search Product"
             value={searchProduct}
             onChange={(event) => {
               setSearchProduct(event.target.value);
@@ -68,20 +84,24 @@ const ProductList = () => {
         </form>
       </div>}
 
+      <ListCategories
+        product={product}
+        setFiltered={setFiltered}
+        activeProduct={activeProduct}
+        setActiveProduct={setActiveProduct}
+      />
       {filtered.length !== 0 ? (
         <>
-          <ListCategories
-            product={product}
-            setFiltered={setFiltered}
-            activeProduct={activeProduct}
-            setActiveProduct={setActiveProduct}
-          />
 
-          <div className="productList">
+          {/* <div className="productList"> */}
+          <Grid container rowSpacing={2} columnSpacing={2.5} sx={{margin:"auto"}}>
             {currentOfPage.map((product) => (
-              <ItemProduct key={product.id} product={product} loading={loading} />
+          <Grid item xs={10} sm={12} md={6} lg={4} sx={{display:"flex", alignItems:"center", justifyContent:"center"}} key={product.id}>
+              <ItemProduct product={product} loading={loading} />
+          </Grid>
             ))}
-          </div>
+          {/* </div> */}
+          </Grid>
 
           <Pagination
             productPerPage={productPerPage}
