@@ -147,6 +147,10 @@ const Navbar = () => {
             All Products
           </Link>
 
+          <Link className="menu-item" to="/contact" onClick={closeSideBar} style={{paddingBottom:'20px'}}>
+            Contact us
+          </Link>
+
           {collectionKeys.map((item, index) => {
             const isOpen = openStates[item];
             const iconSubPath = subCollections[item].icon

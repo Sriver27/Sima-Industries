@@ -19,6 +19,7 @@ import Invoice from "./components/Page/User/Invoice";
 
 import "./App.css";
 import CollectionsPage from "./components/Page/User/CollectionsPage";
+import Contact from "./components/Page/User/Contact";
 
 function App() {
   return (
@@ -56,6 +57,8 @@ function App() {
                 path="product/:productId/:id"
                 element={<ProductDetails />}
               />
+
+              <Route path="contact" element={<Contact />} />
 
               <Route
                 path="profile"
