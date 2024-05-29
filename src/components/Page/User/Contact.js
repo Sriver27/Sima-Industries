@@ -20,7 +20,7 @@ const Contact = () => {
             <Typography variant='h6' sx={{margin:"12px 0 0px 0", fontWeight:"400"}}>Address</Typography>
             <Typography variant='h7' sx={{color:"gray", fontWeight:"400"}}>Sleepwell Gallery, Nahar Chowk Godda</Typography>
             <Typography variant='h6' sx={{margin:"10px 0 0px 0", fontWeight:"400"}}>Business Hours</Typography>
-            <Typography variant='h7' sx={{color:"gray", fontWeight:"400"}}>Monday - Friday: 9:00 AM - 9:00 PM</Typography>
+            <Typography variant='h7' sx={{color:"gray", fontWeight:"400"}}>Monday - Sunday: 9:00 AM - 9:00 PM</Typography>
             <Typography variant='h6' sx={{margin:"10px 0 0px 0", fontWeight:"400"}}>Map view location</Typography>
             <img width={"80px"} src={require('../../assets/qr.jpeg')} alt='google map view' style={{mixBlendMode:"multiply"}} />
             {/* </div> */}
